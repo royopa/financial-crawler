@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{% block title '' %} financial-crawler</title>
+
+        <link href="{{ app.request.basepath }}/vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="{{ app.request.basepath }}/css/main.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+
+      <body>
+
+    <div class="site-wrapper">
+
+      <div class="site-wrapper-inner">
+
+        <div class="cover-container">
+
+          <div class="masthead clearfix">
+            <div class="inner">
+              <h3 class="masthead-brand">Financial Crawler</h3>
+              <ul class="nav masthead-nav">
+                <li class="active"><a href="{{ path('homepage') }}">Home</a></li>
+                <li><a href="{{ path('cdi') }}">CDI</a></li>
+                <li><a href="{{ path('selic') }}">SELIC</a></li>
+                <li><a href="{{ path('ipca') }}">IPCA</a></li>
+                <li><a href="{{ path('igpm') }}">IGPM</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="inner cover">
+              {% block content %}{% endblock %}
+          </div>
+
+          <div class="mastfoot">
+            <div class="inner">
+              <p>Cover template for <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="../../dist/js/bootstrap.min.js"></script>
+        <script src="http://getbootstrap.com/assets/js/docs.min.js"></script>
+    </body>
+</html>

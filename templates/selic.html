@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <h1>SELIC</h1>
+
+    <p class="lead">
+        05/09/2014: 10,90%
+    </p>
+
+    <p class="text-right">
+        Fonte: <a target="_blank" href="http://www.bcb.gov.br/?SELICDIARIOS">BACEN</a>
+    </p>
+
+<div class="row">
+    <iframe width="100%" height="100%" FRAMEBORDER="0" src="http://www3.bcb.gov.br/selic/consulta/taxaSelic.do?method=listarTaxaDiaria&idioma=P"></iframe>
+</div>
+
+
+{% endblock %}

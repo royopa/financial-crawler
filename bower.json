@@ -1,0 +1,9 @@
+{
+  "name": "royopa/finance-crawler",
+  "description": "Crawler de dados financeiros",
+  "license": "MIT",
+  "type": "project",
+  "dependencies": {
+    "bootstrap": "~3.1.1"
+  }
+}
