@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Goutte\Client;
+use Entity\IGPM;
 
 //Request::setTrustedProxies(array('127.0.0.1'));
 
@@ -70,18 +71,18 @@ $app->get('/selic', function () use ($app) {
     //$html = $crawler->html();
     //return new Response($html);
 
+    $now = new \DateTime('now');
+
     $crawler = $client->submit(
         $form,
         array(
             'dataInicial'      => '01/09/2011',
-            'dataFinal'        => '05/09/2014',
+            'dataFinal'        => $now->format('d/m/Y'),
             'tipoApresentacao' => 'tela'
             )
     );
 
     $html = $crawler->html();
-
-    //return new Response($html);
 
     return $app['twig']->render('selic.html', array());
     //https://github.com/guzzle/guzzle-silex-extension
@@ -100,7 +101,53 @@ $app->get('/ipca', function () use ($app) {
 ;
 
 $app->get('/igpm', function () use ($app) {
-    return $app['twig']->render('igpm.html', array());
+
+    $igpm   = new IGPM();
+    $ultimoIndice = $igpm->getUltimoIndiceXML();
+
+    $data =
+        $ultimoIndice->SERIE->DATA->ANO . '-' . $ultimoIndice->SERIE->DATA->MES . '-' . $ultimoIndice->SERIE->DATA->DIA;
+
+    $data = new \DateTime($data);
+
+    return $app['twig']->render(
+        'igpm.html',
+        array(
+            'data'  => $data,
+            'valor' => $igpm->converterIndiceFloat($ultimoIndice)
+            )
+    );
 })
 ->bind('igpm')
+;
+
+$app->get('/selic_webservice', function () use ($app) {
+
+    /*
+    // Edereço do servidor a ser consumido (lido)
+    $client = new SoapClient("https://www3.bcb.gov.br/sgspub/JSP/sgsgeral/FachadaWSSGS.wsdl");
+
+    try {
+        //Neste exemplo eu estou chamando a função do servidor chamada recuperarDados e passando o numero 5 para a variavel idproduto
+      $obj = $client->getValorRequest(array("idproduto" => "5"));
+
+      if ($myxml = simplexml_load_string ($obj -> return)) {
+        foreach ($myxml as $entity) {
+            var_dump($entity);
+        }
+       } else
+        { echo 'Erro ao ler ficheiro XML'; }
+
+    } catch (Exception $e) {
+      echo "ERRO: " . $e->getMessage();
+    }
+*/
+
+/**
+ * Teste das classes acima.
+ */
+
+    return new Response('teste');
+})
+->bind('selic_webservice')
 ;
