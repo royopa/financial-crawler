@@ -1,4 +1,5 @@
-Sistema para buscar dados e indicadores financeiros
+#Financial Crawler
+Um crawler para indicadores financeiros escrito em PHP usando o Silex Framework
 
 IPCA IBGE
 ----
