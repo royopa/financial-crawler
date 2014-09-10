@@ -1,19 +1,8 @@
 #Financial Crawler
 Um crawler para indicadores financeiros escrito em PHP usando o Silex Framework
 
-IPCA IBGE
-----
+http://financial-crawler.url.ph/
 
-source: ftp://ftp.ibge.gov.br/Precos_Indices_de_Precos_ao_Consumidor/IPCA/Serie_Historica/
-http://www.ibge.gov.br/home/estatistica/indicadores/precos/inpc_ipca/ipca-inpc_201408_1.shtm
+Os dados disponíveis estão vindo do BACEN, através do SGS - Sistema Gerenciador de Séries Temporais - https://www3.bcb.gov.br/sgspub/.
 
-CDI OVER CETIP
-----
-
-source ftp://ftp.cetip.com.br/MediaCDI/
-
-SELIC OVER BACEN
----
-
-http://www.bcb.gov.br/?SELICDIARIOS
-
+Os dados disponíveis até o momento são: CDI, SELIC, IGPM, Câmbio, Bovespa.
