@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <h1>{{ nome }}</h1>
+
+    <p class="lead">
+        {% if tipo == 'mensal' %}
+            {{ data.format('m/Y') }}
+        {% else %}
+            {{ data.format('d/m/Y') }}
+        {% endif %}
+            : {{ valor }} {{ unidade }}
+    </p>
+
+    <p class="text-right">
+        Fonte: <a target="_blank" href="https://www3.bcb.gov.br/sgspub/localizarseries/localizarSeries.do?method=prepararTelaLocalizarSeries">SGS/BACEN</a>
+    </p>
+{% endblock %}
+

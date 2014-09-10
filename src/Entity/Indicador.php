@@ -9,9 +9,16 @@ namespace Entity;
 
 use Entity\SOAP;
 
-class IGPM
+class Indicador
 {
-    private $url = "https://www3.bcb.gov.br/sgspub/JSP/sgsgeral/FachadaWSSGS.wsdl";
+    private $url;
+    private $codigoSerie;
+
+    public function __construct($codigoSerie = 0)
+    {
+        $this->url         = "https://www3.bcb.gov.br/sgspub/JSP/sgsgeral/FachadaWSSGS.wsdl";
+        $this->codigoSerie = $codigoSerie;
+    }
 
     /**
      *Função para acessar soap
@@ -42,6 +49,7 @@ class IGPM
 
         return ($soma-1)*100;
     }
+
     /**
      *
      * @param type XML retornado da função soap
@@ -64,8 +72,7 @@ class IGPM
     public function getUltimoIndiceXML()
     {
         $conf[0] = 'getUltimoValorXML';
-        $conf[1] = array('codigoSerie' => 189);
-
+        $conf[1] = array('codigoSerie' => $this->codigoSerie);
 
         return $this->soap($conf);
     }
@@ -83,7 +90,7 @@ class IGPM
         $dataFim = date("d/m/Y", mktime(0, 0, 0, $mes + 1, 0, $ano));
 
         $conf[0] = 'getValoresSeriesXML';
-        $conf[1] = array('codigoSeries' => array(189), 'dataInicio' => $dataInicio, 'dataFim' => $dataFim);
+        $conf[1] = array('codigoSeries' => array($this->codigoSerie), 'dataInicio' => $dataInicio, 'dataFim' => $dataFim);
 
         return $this->soap($conf);
     }

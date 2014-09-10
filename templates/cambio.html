@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <h1>{{ nome }}</h1>
+
+    <h2>Venda</h2>
+
+    <p class="lead">
+        {% if tipo == 'mensal' %}
+            {{ dataVenda.format('m/Y') }}
+        {% else %}
+            {{ dataVenda.format('d/m/Y') }}
+        {% endif %}
+            : R$ {{ valorVenda }}
+    </p>
+
+    <h2>Compra</h2>
+
+    <p class="lead">
+        {% if tipo == 'mensal' %}
+            {{ dataCompra.format('m/Y') }}
+        {% else %}
+            {{ dataCompra.format('d/m/Y') }}
+        {% endif %}
+            : R$ {{ valorCompra }}
+    </p>
+
+    <p class="text-right">
+        Fonte: <a target="_blank" href="https://www3.bcb.gov.br/sgspub/localizarseries/localizarSeries.do?method=prepararTelaLocalizarSeries">SGS/BACEN</a>
+    </p>
+{% endblock %}
+

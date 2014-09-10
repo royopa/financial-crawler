@@ -7,6 +7,10 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Goutte\Client;
 use Entity\IGPM;
+use Entity\SELIC;
+use Entity\IPCA;
+use Entity\CDI;
+use Entity\Indicador;
 
 //Request::setTrustedProxies(array('127.0.0.1'));
 
@@ -33,77 +37,8 @@ $app->error(function (\Exception $e, $code) use ($app) {
 });
 
 $app->get('/cdi', function () use ($app) {
-    $url = 'http://www.cetip.com.br/';
-
-    $client  = new Client();
-    $crawler = $client->request('GET', $url);
-    $client->getClient()->setDefaultOption('config/curl/'.CURLOPT_TIMEOUT, 60);
-
-    $data  = $crawler->filter('#ctl00_Banner_lblTaxDateDI')->text();
-    $data  = str_replace('(', '', $data);
-    $data  = str_replace(')', '', $data);
-    $valor = $crawler->filter('#ctl00_Banner_lblTaxDI')->text();
-
-    //$html = $crawler->html();
-    //return new Response($html);
-
-    return $app['twig']->render(
-        'cdi.html',
-        array(
-            'data'  => $data,
-            'valor' => $valor
-            )
-    );
-})
-->bind('cdi')
-;
-
-$app->get('/selic', function () use ($app) {
-
-    $url     = 'http://www3.bcb.gov.br/selic/consulta/taxaSelic.do?method=listarTaxaDiaria&idioma=P';
-
-    $client  = new Client();
-    $crawler = $client->request('GET', $url);
-    $client->getClient()->setDefaultOption('config/curl/'.CURLOPT_TIMEOUT, 60);
-
-    $form = $crawler->selectButton('Consultar')->form();
-
-    //$html = $crawler->html();
-    //return new Response($html);
-
-    $now = new \DateTime('now');
-
-    $crawler = $client->submit(
-        $form,
-        array(
-            'dataInicial'      => '01/09/2011',
-            'dataFinal'        => $now->format('d/m/Y'),
-            'tipoApresentacao' => 'tela'
-            )
-    );
-
-    $html = $crawler->html();
-
-    return $app['twig']->render('selic.html', array());
-    //https://github.com/guzzle/guzzle-silex-extension
-    //http://guzzle3.readthedocs.org/en/latest/webservice-client/using-the-service-builder.html
-    //http://catalogo.governoeletronico.gov.br/arquivos/Documentos/WS_SGS_BCB.pdf
-    //https://www3.bcb.gov.br/sgspub/JSP/sgsgeral/FachadaWSSGS.wsdl
-    //https://www3.bcb.gov.br/wssgs/services/FachadaWSSGS
-})
-->bind('selic')
-;
-
-$app->get('/ipca', function () use ($app) {
-    return $app['twig']->render('ipca.html', array());
-})
-->bind('ipca')
-;
-
-$app->get('/igpm', function () use ($app) {
-
-    $igpm   = new IGPM();
-    $ultimoIndice = $igpm->getUltimoIndiceXML();
+    $indicador    = new Indicador(4389);
+    $ultimoIndice = $indicador->getUltimoIndiceXML();
 
     $data =
         $ultimoIndice->SERIE->DATA->ANO . '-' . $ultimoIndice->SERIE->DATA->MES . '-' . $ultimoIndice->SERIE->DATA->DIA;
@@ -111,43 +46,140 @@ $app->get('/igpm', function () use ($app) {
     $data = new \DateTime($data);
 
     return $app['twig']->render(
-        'igpm.html',
+        'indicador.html',
         array(
-            'data'  => $data,
-            'valor' => $igpm->converterIndiceFloat($ultimoIndice)
+            'nome'    => 'CDI',
+            'data'    => $data,
+            'valor'   => $ultimoIndice->SERIE->VALOR,
+            'tipo'    => 'diario',
+            'unidade' => '%'
+            )
+    );
+})
+->bind('cdi')
+;
+
+$app->get('/ipca', function () use ($app) {
+    $indicador    = new Indicador(433);
+    $ultimoIndice = $indicador->getUltimoIndiceXML();
+
+    $data =
+        $ultimoIndice->SERIE->DATA->ANO . '-' . $ultimoIndice->SERIE->DATA->MES . '-' . $ultimoIndice->SERIE->DATA->DIA;
+
+    $data = new \DateTime($data);
+
+    return $app['twig']->render(
+        'indicador.html',
+        array(
+            'nome'    => 'IPCA',
+            'data'    => $data,
+            'valor'   => $ultimoIndice->SERIE->VALOR,
+            'tipo'    => 'mensal',
+            'unidade' => '%'
+            )
+    );
+})
+->bind('ipca')
+;
+
+$app->get('/igpm', function () use ($app) {
+    $indicador    = new Indicador(189);
+    $ultimoIndice = $indicador->getUltimoIndiceXML();
+
+    $data =
+        $ultimoIndice->SERIE->DATA->ANO . '-' . $ultimoIndice->SERIE->DATA->MES . '-' . $ultimoIndice->SERIE->DATA->DIA;
+
+    $data = new \DateTime($data);
+
+    return $app['twig']->render(
+        'indicador.html',
+        array(
+            'nome'    => 'IGPM',
+            'data'    => $data,
+            'valor'   => $ultimoIndice->SERIE->VALOR,
+            'tipo'    => 'mensal',
+            'unidade' => '%'
             )
     );
 })
 ->bind('igpm')
 ;
 
-$app->get('/selic_webservice', function () use ($app) {
+$app->get('/selic', function () use ($app) {
+    $indicador    = new Indicador(1178);
+    $ultimoIndice = $indicador->getUltimoIndiceXML();
 
-    /*
-    // Edereço do servidor a ser consumido (lido)
-    $client = new SoapClient("https://www3.bcb.gov.br/sgspub/JSP/sgsgeral/FachadaWSSGS.wsdl");
+    $data =
+        $ultimoIndice->SERIE->DATA->ANO . '-' . $ultimoIndice->SERIE->DATA->MES . '-' . $ultimoIndice->SERIE->DATA->DIA;
 
-    try {
-        //Neste exemplo eu estou chamando a função do servidor chamada recuperarDados e passando o numero 5 para a variavel idproduto
-      $obj = $client->getValorRequest(array("idproduto" => "5"));
+    $data = new \DateTime($data);
 
-      if ($myxml = simplexml_load_string ($obj -> return)) {
-        foreach ($myxml as $entity) {
-            var_dump($entity);
-        }
-       } else
-        { echo 'Erro ao ler ficheiro XML'; }
-
-    } catch (Exception $e) {
-      echo "ERRO: " . $e->getMessage();
-    }
-*/
-
-/**
- * Teste das classes acima.
- */
-
-    return new Response('teste');
+    return $app['twig']->render(
+        'indicador.html',
+        array(
+            'nome'    => 'SELIC',
+            'data'    => $data,
+            'valor'   => $ultimoIndice->SERIE->VALOR,
+            'tipo'    => 'diario',
+            'unidade' => '%'
+            )
+    );
 })
-->bind('selic_webservice')
+->bind('selic')
+;
+
+$app->get('/bovespa', function () use ($app) {
+    $indicador    = new Indicador(7);
+    $ultimoIndice = $indicador->getUltimoIndiceXML();
+
+    $data =
+        $ultimoIndice->SERIE->DATA->ANO . '-' . $ultimoIndice->SERIE->DATA->MES . '-' . $ultimoIndice->SERIE->DATA->DIA;
+
+    $data = new \DateTime($data);
+
+    return $app['twig']->render(
+        'indicador.html',
+        array(
+            'nome'    => 'BOVESPA',
+            'data'    => $data,
+            'valor'   => $ultimoIndice->SERIE->VALOR,
+            'tipo'    => 'diario',
+            'unidade' => 'pontos'
+            )
+    );
+})
+->bind('bovespa')
+;
+
+
+$app->get('/cambio', function () use ($app) {
+    //cambio venda
+    $indicador    = new Indicador(1);
+    $ultimoIndice = $indicador->getUltimoIndiceXML();
+
+    $data =
+        $ultimoIndice->SERIE->DATA->ANO . '-' . $ultimoIndice->SERIE->DATA->MES . '-' . $ultimoIndice->SERIE->DATA->DIA;
+    $data = new \DateTime($data);
+
+    //cambio compra
+    $indicador     = new Indicador(10813);
+    $ultimoIndiceC = $indicador->getUltimoIndiceXML();
+
+    $dataC =
+        $ultimoIndiceC->SERIE->DATA->ANO . '-' . $ultimoIndiceC->SERIE->DATA->MES . '-' . $ultimoIndiceC->SERIE->DATA->DIA;
+    $dataC = new \DateTime($dataC);
+
+    return $app['twig']->render(
+        'cambio.html',
+        array(
+            'nome'        => 'Dólar americano',
+            'dataVenda'   => $data,
+            'valorVenda'  => $ultimoIndice->SERIE->VALOR,
+            'tipo'        => 'diario',
+            'dataCompra'  => $dataC,
+            'valorCompra' => $ultimoIndiceC->SERIE->VALOR
+            )
+    );
+})
+->bind('cambio')
 ;
