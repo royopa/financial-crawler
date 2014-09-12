@@ -8,7 +8,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Finder\Finder;
 use Goutte\Client;
 use Royopa\Financial\Indicador;
-use Royopa\Financial\CDI;
+use Royopa\Financial\Cdi;
 
 //Request::setTrustedProxies(array('127.0.0.1'));
 
@@ -195,15 +195,28 @@ $app->get('/cdi_cetip', function () use ($app) {
 
     $entities = new \ArrayIterator();
 
+    $conn = $app['db'];
+    $stmt = $conn->prepare('INSERT INTO cdi (data, valor) VALUES (:data, :valor)');
+
     foreach ($finder as $file) {
         // ... do something
         $nomeData = str_replace('.txt', '', $file->getFilename());
         $data     = new \DateTime($nomeData);
         $contents = (float) $file->getContents();
         $valor    = $contents / 100; //format the decimal
-        $entities->offsetSet($data->format('d/m/Y'), $valor);
+        $cdi      = new Cdi($data, $valor);
+
+        $entities->append($cdi);
         //echo $file->getFilename() . ' - ' . $data->format('d/m/Y'). ' = ' . $valor . '<br/>';
+
+        //se a data não existir na tabela, adiciona
+        //$stmt->bindValue('data', $data, "date");
+        //$stmt->bindValue('valor', $valor, "float");
+        //$stmt->execute();
     }
+
+    $sql      = "SELECT data, valor FROM cdi ORDER BY data DESC LIMIT 10";
+    $entities = $app['db']->fetchAll($sql);
 
     return $app['twig']->render(
         'cdi_cetip.html',

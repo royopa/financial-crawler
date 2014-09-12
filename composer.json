@@ -22,7 +22,8 @@
         "symfony/twig-bridge": "~2.3",
         "symfony/validator": "~2.3",
         "ddeboer/data-import-bundle": "~0.1",
-        "phpoffice/phpexcel": "dev-master"
+        "phpoffice/phpexcel": "dev-master",
+        "doctrine/dbal": "~2.3.4"
     },
     "autoload": {
         "psr-0": { "": "src/" }
