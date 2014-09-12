@@ -20,7 +20,9 @@
         "symfony/security": "~2.3",
         "symfony/translation": "~2.3",
         "symfony/twig-bridge": "~2.3",
-        "symfony/validator": "~2.3"
+        "symfony/validator": "~2.3",
+        "ddeboer/data-import-bundle": "~0.1",
+        "phpoffice/phpexcel": "dev-master"
     },
     "autoload": {
         "psr-0": { "": "src/" }

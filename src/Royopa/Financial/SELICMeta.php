@@ -1,23 +1,24 @@
 <?php
 
 /**
- * Faz consulta ao webservice do banco central para recuperação do IGP-M
- * @author Julio Cezar - <julio@soltein.com.br>
+ * Faz consulta ao webservice do banco central para recuperação da SELIC
+ * @author royopa - <royopao@gmail.com>
  */
 
-namespace Entity;
+namespace Royopa\Financial;
 
-use Entity\SOAP;
+use Royopa\Financial\SOAP;
 
-class Indicador
+class SELICMeta
 {
     private $url;
+
     private $codigoSerie;
 
-    public function __construct($codigoSerie = 0)
+    public function __construct()
     {
         $this->url         = "https://www3.bcb.gov.br/sgspub/JSP/sgsgeral/FachadaWSSGS.wsdl";
-        $this->codigoSerie = $codigoSerie;
+        $this->codigoSerie = 432;
     }
 
     /**
@@ -35,22 +36,6 @@ class Indicador
     }
 
     /**
-     *Soma o indice dos ultimos 12 meses
-     * @access public
-     * @param type XML retornado da função soap
-     * @return A soma dos indices
-     */
-    public function somaUltimos12Meses($xml)
-    {
-        $soma = 1;
-        foreach ($xml->SERIE->ITEM as $item) {
-            $soma = (float) $soma * ( (float) ((float)$item->VALOR/100) + 1 );
-        }
-
-        return ($soma-1)*100;
-    }
-
-    /**
      *
      * @param type XML retornado da função soap
      * @return O ultimo indíce convertido em float.
@@ -59,7 +44,8 @@ class Indicador
     {
         /**
          * O valor será retornado como X.XXX,XX se usar o number_format, ou mesmo converter direto para float
-         * o mesmo será truncado para baixo. Neste caso substituir o . da milhar por vazio e a , por ponto de modo a converter considerando
+         * o mesmo será truncado para baixo. Neste caso substituir o . da milhar por vazio e a , por ponto de
+         * modo a converter considerando
          * as casas decimais.
          */
         return ((float) str_replace(",", ".", str_replace(".", "", (string) $xml->SERIE->VALOR)));
@@ -67,12 +53,13 @@ class Indicador
 
     /**
      *
-     * @return type XML contendo o ultimo indice do IGP-M
+     * @return type XML contendo o ultimo indice da SELIC Over
      */
     public function getUltimoIndiceXML()
     {
         $conf[0] = 'getUltimoValorXML';
         $conf[1] = array('codigoSerie' => $this->codigoSerie);
+
 
         return $this->soap($conf);
     }

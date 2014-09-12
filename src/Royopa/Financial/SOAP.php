@@ -4,7 +4,7 @@
 *@description Faz consulta o webservice do banco central e retorna o IGP-M atual
 */
 
-namespace Entity;
+namespace Royopa\Financial;
 
 class SOAP extends \SOAPClient
 {

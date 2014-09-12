@@ -6,11 +6,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Goutte\Client;
-use Entity\IGPM;
-use Entity\SELIC;
-use Entity\IPCA;
-use Entity\CDI;
-use Entity\Indicador;
+use Royopa\Financial\Indicador;
 
 //Request::setTrustedProxies(array('127.0.0.1'));
 
