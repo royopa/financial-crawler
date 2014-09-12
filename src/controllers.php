@@ -5,8 +5,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Finder\Finder;
 use Goutte\Client;
 use Royopa\Financial\Indicador;
+use Royopa\Financial\CDI;
 
 //Request::setTrustedProxies(array('127.0.0.1'));
 
@@ -178,4 +180,38 @@ $app->get('/cambio', function () use ($app) {
     );
 })
 ->bind('cambio')
+;
+
+$app->get('/cdi_cetip', function () use ($app) {
+    //$url = 'ftp://ftp.ibge.gov.br/Precos_Indices_de_Precos_ao_Consumidor/IPCA/Serie_Historica/';
+    //$url = 'ftp://ftp.cetip.com.br/MediaCDI/';
+    $url = __DIR__.'/../var/temp/MediaCDI/';
+    $finder = new Finder();
+    $finder->in($url);
+    $finder->files();
+    $finder->depth('== 0');
+    $finder->files()->name('*.txt');
+    $finder->size('< 1K');
+
+    $entities = new \ArrayIterator();
+
+    foreach ($finder as $file) {
+        // ... do something
+        $nomeData = str_replace('.txt', '', $file->getFilename());
+        $data     = new \DateTime($nomeData);
+        $contents = (float) $file->getContents();
+        $valor    = $contents / 100; //format the decimal
+        $entities->offsetSet($data->format('d/m/Y'), $valor);
+        //echo $file->getFilename() . ' - ' . $data->format('d/m/Y'). ' = ' . $valor . '<br/>';
+    }
+
+    return $app['twig']->render(
+        'cdi_cetip.html',
+        array(
+            'nome'     => 'Série Histórica CDI',
+            'entities' => $entities
+            )
+    );
+})
+->bind('cdi_cetip')
 ;

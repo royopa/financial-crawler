@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <h1>{{ nome }}</h1>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Valor %</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for key, entity in entities %}
+                {% if key == '10/09/2014' %}
+                <tr>
+                    <td>{{ key }}</td>
+                    <td>{{ entity }}</td>
+                </tr>
+                {% endif %}
+                {% else %}
+                <p> Nenhum registro encontrado. </p>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    <p class="text-right">
+        Fonte: <a target="_blank" href="http://www.cetip.com.br/">CETIP</a>
+    </p>
+{% endblock %}
