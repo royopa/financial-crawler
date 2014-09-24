@@ -1,3 +1,6 @@
 /vendor/
 composer.lock
 web/vendor/
+/var/cache/
+/var/logs/
+/var/temp/

@@ -58,6 +58,7 @@ $app->get('/cdi', function () use ($app) {
 ;
 
 $app->get('/ipca', function () use ($app) {
+    //$url = 'ftp://ftp.ibge.gov.br/Precos_Indices_de_Precos_ao_Consumidor/IPCA/Serie_Historica/';
     $indicador    = new Indicador(433);
     $ultimoIndice = $indicador->getUltimoIndiceXML();
 
@@ -183,7 +184,6 @@ $app->get('/cambio', function () use ($app) {
 ;
 
 $app->get('/cdi_cetip', function () use ($app) {
-    //$url = 'ftp://ftp.ibge.gov.br/Precos_Indices_de_Precos_ao_Consumidor/IPCA/Serie_Historica/';
     //$url = 'ftp://ftp.cetip.com.br/MediaCDI/';
     $url = __DIR__.'/../var/temp/MediaCDI/';
     $finder = new Finder();
@@ -195,24 +195,29 @@ $app->get('/cdi_cetip', function () use ($app) {
 
     $entities = new \ArrayIterator();
 
-    $conn = $app['db'];
-    $stmt = $conn->prepare('INSERT INTO cdi (data, valor) VALUES (:data, :valor)');
-
+    //pega a última data disponível no banco de dados
+    $maiorData = new \DateTime($app['db']->fetchColumn('SELECT MAX(data) FROM cdi'));
+   
+    $stmt = $app['db']->prepare('INSERT INTO cdi (data, valor) VALUES (:data, :valor)');
+   
     foreach ($finder as $file) {
         // ... do something
         $nomeData = str_replace('.txt', '', $file->getFilename());
         $data     = new \DateTime($nomeData);
+
+        if ($data <= $maiorData) {
+            continue;
+        }
+        
         $contents = (float) $file->getContents();
         $valor    = $contents / 100; //format the decimal
         $cdi      = new Cdi($data, $valor);
 
-        $entities->append($cdi);
         //echo $file->getFilename() . ' - ' . $data->format('d/m/Y'). ' = ' . $valor . '<br/>';
-
         //se a data não existir na tabela, adiciona
-        //$stmt->bindValue('data', $data, "date");
-        //$stmt->bindValue('valor', $valor, "float");
-        //$stmt->execute();
+        $stmt->bindValue('data', $data, "date");
+        $stmt->bindValue('valor', $valor, "float");
+        $stmt->execute();
     }
 
     $sql      = "SELECT data, valor FROM cdi ORDER BY data DESC LIMIT 10";
