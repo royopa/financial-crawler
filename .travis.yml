@@ -3,14 +3,10 @@ language: php
 
 env:
     - RUN=phpunit
-    - RUN=vendor/bin/phpunit
-    - RUN=vendor/bin/phing
 
 script: ${RUN}
 
 php:
-    - 5.3
-    - 5.4
     - 5.5
     - 5.6
 
