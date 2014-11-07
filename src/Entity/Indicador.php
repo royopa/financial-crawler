@@ -28,7 +28,13 @@ class Indicador
      */
     public function soap($conf)
     {
-        $cliente = SOAP::getInstance($this->url);
+        $proxy = array(
+            'proxy_host'     => "10.192.38.86",
+            'proxy_port'     => 80,
+            'proxy_login'    => "c090762@CORPCAIXA",
+            'proxy_password' => "Ro3648");
+
+        $cliente = SOAP::getInstance($this->url, $proxy);
 
         $resultado = $cliente->call($conf);
         return simplexml_load_string($resultado);

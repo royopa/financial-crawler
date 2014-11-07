@@ -20,7 +20,11 @@
         "symfony/security": "~2.3",
         "symfony/translation": "~2.3",
         "symfony/twig-bridge": "~2.3",
-        "symfony/validator": "~2.3"
+        "symfony/validator": "~2.3",
+        "guzzle/silex-provider": "1.0.*@dev",
+        "malenki/math": "dev-master",
+        "royopa/mat-lab-php": "dev-master",
+        "scheb/yahoo-finance-api": "dev-master"
     },
     "autoload": {
         "psr-0": { "": "src/" }

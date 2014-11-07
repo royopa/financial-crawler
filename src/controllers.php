@@ -11,10 +11,15 @@ use Entity\SELIC;
 use Entity\IPCA;
 use Entity\CDI;
 use Entity\Indicador;
+use Malenki\Math\Stats;
 
 //Request::setTrustedProxies(array('127.0.0.1'));
 
 $app->get('/', function () use ($app) {
+
+    $s = new \Malenki\Math\Stats(array(1,2,4,2,6,4));
+    var_dump(count($s));
+
     return $app['twig']->render('index.html', array());
 })
 ->bind('homepage')
