@@ -7,6 +7,7 @@ Os dados disponíveis estão vindo do BACEN, através do SGS - Sistema Gerenciad
 
 Os dados disponíveis até o momento são: CDI, SELIC, IGPM, Câmbio, Bovespa.
 
+<<<<<<< HEAD
 Índices IMA - última posição
 
 (IMA-Geral, IRF-M, IMA-C, IMA-B, IMA-S)
@@ -23,3 +24,12 @@ http://www.anbima.com.br/ima/arqs/ima_completo.xml
 IDkA Anbima
 
 http://www.anbima.com.br/idka/IDkA.asp
+=======
+##Vagrant
+
+~~~
+vagrant up
+
+http://192.168.33.100/web/index_dev.php
+~~~
+>>>>>>> 322338a5a4e31a4ab700dfb829370950557eb1d6

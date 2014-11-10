@@ -1,0 +1,14 @@
+---
+- hosts: all
+  sudo: true
+  vars:
+    web_server: apachephp
+  vars_files:
+    - vars/common.yml
+    - [ "vars/apachephp.yml", "vars/ws_defaults.yml" ]
+  roles:
+    - init
+    - apache
+    - php5
+    - composer
+    - phpcommon

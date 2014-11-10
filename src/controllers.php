@@ -5,13 +5,19 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Finder\Finder;
 use Goutte\Client;
+<<<<<<< HEAD
 use Entity\IGPM;
 use Entity\SELIC;
 use Entity\IPCA;
 use Entity\CDI;
 use Entity\Indicador;
 use Malenki\Math\Stats;
+=======
+use Royopa\Financial\Indicador;
+use Royopa\Financial\Cdi;
+>>>>>>> 322338a5a4e31a4ab700dfb829370950557eb1d6
 
 //Request::setTrustedProxies(array('127.0.0.1'));
 
@@ -65,6 +71,7 @@ $app->get('/cdi', function () use ($app) {
 ;
 
 $app->get('/ipca', function () use ($app) {
+    //$url = 'ftp://ftp.ibge.gov.br/Precos_Indices_de_Precos_ao_Consumidor/IPCA/Serie_Historica/';
     $indicador    = new Indicador(433);
     $ultimoIndice = $indicador->getUltimoIndiceXML();
 
@@ -187,4 +194,55 @@ $app->get('/cambio', function () use ($app) {
     );
 })
 ->bind('cambio')
+;
+
+$app->get('/cdi_cetip', function () use ($app) {
+    //$url = 'ftp://ftp.cetip.com.br/MediaCDI/';
+    $url = __DIR__.'/../var/temp/MediaCDI/';
+    $finder = new Finder();
+    $finder->in($url);
+    $finder->files();
+    $finder->depth('== 0');
+    $finder->files()->name('*.txt');
+    $finder->size('< 1K');
+
+    $entities = new \ArrayIterator();
+
+    //pega a última data disponível no banco de dados
+    $maiorData = new \DateTime($app['db']->fetchColumn('SELECT MAX(data) FROM cdi'));
+   
+    $stmt = $app['db']->prepare('INSERT INTO cdi (data, valor) VALUES (:data, :valor)');
+   
+    foreach ($finder as $file) {
+        // ... do something
+        $nomeData = str_replace('.txt', '', $file->getFilename());
+        $data     = new \DateTime($nomeData);
+
+        if ($data <= $maiorData) {
+            continue;
+        }
+        
+        $contents = (float) $file->getContents();
+        $valor    = $contents / 100; //format the decimal
+        $cdi      = new Cdi($data, $valor);
+
+        //echo $file->getFilename() . ' - ' . $data->format('d/m/Y'). ' = ' . $valor . '<br/>';
+        //se a data não existir na tabela, adiciona
+        $stmt->bindValue('data', $data, "date");
+        $stmt->bindValue('valor', $valor, "float");
+        $stmt->execute();
+    }
+
+    $sql      = "SELECT data, valor FROM cdi ORDER BY data DESC LIMIT 10";
+    $entities = $app['db']->fetchAll($sql);
+
+    return $app['twig']->render(
+        'cdi_cetip.html',
+        array(
+            'nome'     => 'Série Histórica CDI',
+            'entities' => $entities
+            )
+    );
+})
+->bind('cdi_cetip')
 ;
