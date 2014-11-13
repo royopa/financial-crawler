@@ -7,17 +7,14 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Finder\Finder;
 use Goutte\Client;
-<<<<<<< HEAD
 use Entity\IGPM;
 use Entity\SELIC;
 use Entity\IPCA;
 use Entity\CDI;
 use Entity\Indicador;
 use Malenki\Math\Stats;
-=======
 use Royopa\Financial\Indicador;
 use Royopa\Financial\Cdi;
->>>>>>> 322338a5a4e31a4ab700dfb829370950557eb1d6
 
 //Request::setTrustedProxies(array('127.0.0.1'));
 
