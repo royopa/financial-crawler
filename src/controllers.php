@@ -11,7 +11,6 @@ use Entity\IGPM;
 use Entity\SELIC;
 use Entity\IPCA;
 use Entity\CDI;
-use Entity\Indicador;
 use Malenki\Math\Stats;
 use Royopa\Financial\Indicador;
 use Royopa\Financial\Cdi;
