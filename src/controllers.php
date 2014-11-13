@@ -10,7 +10,6 @@ use Goutte\Client;
 use Entity\IGPM;
 use Entity\SELIC;
 use Entity\IPCA;
-use Entity\CDI;
 use Malenki\Math\Stats;
 use Royopa\Financial\Indicador;
 use Royopa\Financial\Cdi;
