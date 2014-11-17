@@ -2,13 +2,17 @@
 - hosts: all
   sudo: true
   vars:
-    web_server: apachephp
+    web_server: nginxphp
+    servername: myApp.vb www.myApp.vb
+    timezone: America/Sao_Paulo
   vars_files:
     - vars/common.yml
-    - [ "vars/apachephp.yml", "vars/ws_defaults.yml" ]
+    - [ "vars/nginxphp.yml", "vars/ws_defaults.yml" ]
   roles:
     - init
-    - apache
-    - php5
+    - php5-cli
+    - nginx
+    - php5-fpm
     - composer
     - phpcommon
+    - app
