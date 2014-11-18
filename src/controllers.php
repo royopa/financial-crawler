@@ -18,7 +18,6 @@ use Royopa\Financial\Cdi;
 
 $app->get('/', function () use ($app) {
 
-
     return $app['twig']->render('index.html', array());
 })
 ->bind('homepage')
@@ -238,4 +237,16 @@ $app->get('/cdi_cetip', function () use ($app) {
     );
 })
 ->bind('cdi_cetip')
+;
+
+$app->get('/yahoo', function () use ($app) {
+
+    $client = new \Scheb\YahooFinanceApi\ApiClient();
+
+    //Get historical data
+    $data = $client->getHistoricalData("CEOC11B.SA", new \DateTime('2013-09-15'), new \DateTime('now'));
+
+    return new Response(var_dump($data['query']['results']));
+})
+->bind('yahoo')
 ;
