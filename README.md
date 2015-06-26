@@ -35,10 +35,16 @@ composer run
 http://localhost:8080
 
 
-Fazendo de deploy da aplicação
-----------------------------
+Deploy Simples
+--------------
 ```sh
 composer deploy
+```
+
+Deploy com Vendor
+--------------
+```sh
+composer deploy-with-vendor
 ```
 
 ##TO DO
