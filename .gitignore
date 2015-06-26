@@ -4,3 +4,4 @@ web/vendor/
 /var/cache/
 /var/logs/
 /var/temp/
+deploy.ini

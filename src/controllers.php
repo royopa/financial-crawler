@@ -13,6 +13,7 @@ use Entity\IPCA;
 use Malenki\Math\Stats;
 use Royopa\Financial\Indicador;
 use Royopa\Financial\Cdi;
+use Royopa\Quandl;
 
 //Request::setTrustedProxies(array('127.0.0.1'));
 
@@ -40,20 +41,27 @@ $app->error(function (\Exception $e, $code) use ($app) {
 });
 
 $app->get('/cdi', function () use ($app) {
-    $indicador    = new Indicador(4389);
-    $ultimoIndice = $indicador->getUltimoIndiceXML();
+    $api_key = 'm2atjgMb4x11YczvyR_Q';
+    $quandl  = new Quandl($api_key);
+    $symbol  = 'BCB/4389'; # CDI
+    $result  = $quandl->getSymbol(
+        $symbol,
+        array(
+            "sort_order"      => "desc",
+            "exclude_headers" => true,
+            "rows"            => 1,
+        )
+    );
 
-    $data =
-        $ultimoIndice->SERIE->DATA->ANO . '-' . $ultimoIndice->SERIE->DATA->MES . '-' . $ultimoIndice->SERIE->DATA->DIA;
-
-    $data = new \DateTime($data);
+    $date  = new \DateTime($result->data[0][0]);
+    $value = $result->data[0][1];
 
     return $app['twig']->render(
         'indicador.html',
         array(
             'nome'    => 'CDI',
-            'data'    => $data,
-            'valor'   => $ultimoIndice->SERIE->VALOR,
+            'data'    => $date,
+            'valor'   => $value,
             'tipo'    => 'diario',
             'unidade' => '%'
             )

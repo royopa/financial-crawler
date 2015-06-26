@@ -34,3 +34,18 @@ http://www.anbima.com.br/idka/IDkA.asp
 vagrant up
 
 http://192.168.33.100/web/index_dev.php
+
+
+Deploy
+======
+```sh
+composer deploy
+```
+
+Run on Localhost
+================
+```sh
+composer run
+```
+
+http://localhost:8080
