@@ -41,10 +41,10 @@ Deploy Simples
 composer deploy
 ```
 
-Deploy com Vendor
---------------
+Deploy Sync Remote
+------------------
 ```sh
-composer deploy-with-vendor
+composer deploy-sync-remote
 ```
 
 ##TO DO

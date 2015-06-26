@@ -47,8 +47,8 @@
         "deploy": [
             "php ./vendor/royopa/phploy/bin/phploy.phar --server production"
         ],
-        "deploy-with-vendor": [
-            "php ./vendor/royopa/phploy/bin/phploy.phar -o --server production"
+        "deploy-sync-remote": [
+            "php ./vendor/royopa/phploy/bin/phploy.phar --sync --server production"
         ]
     },
     "minimum-stability": "dev",
