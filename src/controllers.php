@@ -13,7 +13,7 @@ use Entity\IPCA;
 use Malenki\Math\Stats;
 use Royopa\Financial\Indicador;
 use Royopa\Financial\Cdi;
-use Royopa\Quandl;
+use Royopa\Quandl\Quandl;
 
 //Request::setTrustedProxies(array('127.0.0.1'));
 
