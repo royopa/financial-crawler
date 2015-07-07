@@ -13,11 +13,11 @@ use Entity\IPCA;
 use Malenki\Math\Stats;
 use Royopa\Financial\Indicador;
 use Royopa\Financial\Cdi;
-use Royopa\Quandl\Quandl;
 
 //Request::setTrustedProxies(array('127.0.0.1'));
 
 $app->get('/', function () use ($app) {
+
 
     return $app['twig']->render('index.html', array());
 })
@@ -41,27 +41,20 @@ $app->error(function (\Exception $e, $code) use ($app) {
 });
 
 $app->get('/cdi', function () use ($app) {
-    $api_key = 'm2atjgMb4x11YczvyR_Q';
-    $quandl  = new Quandl($api_key);
-    $symbol  = 'BCB/4389'; # CDI
-    $result  = $quandl->getSymbol(
-        $symbol,
-        array(
-            "sort_order"      => "desc",
-            "exclude_headers" => true,
-            "rows"            => 1,
-        )
-    );
+    $indicador    = new Indicador(4389);
+    $ultimoIndice = $indicador->getUltimoIndiceXML();
 
-    $date  = new \DateTime($result->data[0][0]);
-    $value = $result->data[0][1];
+    $data =
+        $ultimoIndice->SERIE->DATA->ANO . '-' . $ultimoIndice->SERIE->DATA->MES . '-' . $ultimoIndice->SERIE->DATA->DIA;
+
+    $data = new \DateTime($data);
 
     return $app['twig']->render(
         'indicador.html',
         array(
             'nome'    => 'CDI',
-            'data'    => $date,
-            'valor'   => $value,
+            'data'    => $data,
+            'valor'   => $ultimoIndice->SERIE->VALOR,
             'tipo'    => 'diario',
             'unidade' => '%'
             )
@@ -210,9 +203,9 @@ $app->get('/cdi_cetip', function () use ($app) {
 
     //pega a última data disponível no banco de dados
     $maiorData = new \DateTime($app['db']->fetchColumn('SELECT MAX(data) FROM cdi'));
-   
+
     $stmt = $app['db']->prepare('INSERT INTO cdi (data, valor) VALUES (:data, :valor)');
-   
+
     foreach ($finder as $file) {
         // ... do something
         $nomeData = str_replace('.txt', '', $file->getFilename());
@@ -221,7 +214,7 @@ $app->get('/cdi_cetip', function () use ($app) {
         if ($data <= $maiorData) {
             continue;
         }
-        
+
         $contents = (float) $file->getContents();
         $valor    = $contents / 100; //format the decimal
         $cdi      = new Cdi($data, $valor);
@@ -245,16 +238,4 @@ $app->get('/cdi_cetip', function () use ($app) {
     );
 })
 ->bind('cdi_cetip')
-;
-
-$app->get('/yahoo', function () use ($app) {
-
-    $client = new \Scheb\YahooFinanceApi\ApiClient();
-
-    //Get historical data
-    $data = $client->getHistoricalData("CEOC11B.SA", new \DateTime('2013-09-15'), new \DateTime('now'));
-
-    return new Response(var_dump($data['query']['results']));
-})
-->bind('yahoo')
 ;

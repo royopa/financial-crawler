@@ -1064,17 +1064,68 @@
             "time": "2012-12-21 11:40:51"
         },
         {
+            "name": "raveren/kint",
+            "version": "1.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/raveren/kint.git",
+                "reference": "0cb1329798c85df500e4dfac607c5d6834c18431"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/raveren/kint/zipball/0cb1329798c85df500e4dfac607c5d6834c18431",
+                "reference": "0cb1329798c85df500e4dfac607c5d6834c18431",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "Kint.class.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rokas Šleinius",
+                    "homepage": "https://github.com/raveren"
+                },
+                {
+                    "name": "Contributors",
+                    "homepage": "https://github.com/raveren/kint/contributors"
+                }
+            ],
+            "description": "Kint - debugging helper for PHP developers",
+            "homepage": "https://github.com/raveren/kint",
+            "keywords": [
+                "debug",
+                "kint",
+                "php"
+            ],
+            "time": "2015-07-02 11:06:58"
+        },
+        {
             "name": "royopa/mat-lab-php",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/royopa/mat-lab-php.git",
-                "reference": "5e4ed978eab571880d4efa376491517d2dcfa178"
+                "reference": "6c5dc2c449e5863fb92c58ca20e8e38fca64c0b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/royopa/mat-lab-php/zipball/5e4ed978eab571880d4efa376491517d2dcfa178",
-                "reference": "5e4ed978eab571880d4efa376491517d2dcfa178",
+                "url": "https://api.github.com/repos/royopa/mat-lab-php/zipball/6c5dc2c449e5863fb92c58ca20e8e38fca64c0b4",
+                "reference": "6c5dc2c449e5863fb92c58ca20e8e38fca64c0b4",
                 "shasum": ""
             },
             "require": {
@@ -1122,7 +1173,7 @@
                 "utility",
                 "utils"
             ],
-            "time": "2015-06-18 12:03:57"
+            "time": "2015-06-27 01:32:24"
         },
         {
             "name": "royopa/phploy",
@@ -1170,16 +1221,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/royopa/quandl-elephant-api.git",
-                "reference": "69ac498c128057f62b3baaf48f957389c0c8d507"
+                "reference": "82ab2a7794ca235f1fa88913aa7d638a9609a002"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/royopa/quandl-elephant-api/zipball/69ac498c128057f62b3baaf48f957389c0c8d507",
-                "reference": "69ac498c128057f62b3baaf48f957389c0c8d507",
+                "url": "https://api.github.com/repos/royopa/quandl-elephant-api/zipball/82ab2a7794ca235f1fa88913aa7d638a9609a002",
+                "reference": "82ab2a7794ca235f1fa88913aa7d638a9609a002",
                 "shasum": ""
             },
             "require": {
-                "php": "~5.4"
+                "php": "~5.4",
+                "raveren/kint": "^1.0",
+                "vlucas/phpdotenv": "^2.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "4.0.*"
@@ -1204,7 +1257,7 @@
                 }
             ],
             "description": "A API to provide easy access to the Quandl API using PHP",
-            "time": "2015-06-26 01:47:16"
+            "time": "2015-07-03 11:19:22"
         },
         {
             "name": "scheb/yahoo-finance-api",
@@ -2926,6 +2979,52 @@
                 "templating"
             ],
             "time": "2015-06-06 23:31:24"
+        },
+        {
+            "name": "vlucas/phpdotenv",
+            "version": "v2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vlucas/phpdotenv.git",
+                "reference": "91064290f5b53a09bdff1b939d7f69fb0e7531b5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/91064290f5b53a09bdff1b939d7f69fb0e7531b5",
+                "reference": "91064290f5b53a09bdff1b939d7f69fb0e7531b5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Dotenv\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD"
+            ],
+            "authors": [
+                {
+                    "name": "Vance Lucas",
+                    "email": "vance@vancelucas.com",
+                    "homepage": "http://www.vancelucas.com"
+                }
+            ],
+            "description": "Loads environment variables from `.env` to `getenv()`, `$_ENV` and `$_SERVER` automagically.",
+            "homepage": "http://github.com/vlucas/phpdotenv",
+            "keywords": [
+                "dotenv",
+                "env",
+                "environment"
+            ],
+            "time": "2015-05-30 16:15:01"
         }
     ],
     "packages-dev": [],
