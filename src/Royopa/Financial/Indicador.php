@@ -29,10 +29,10 @@ class Indicador
     public function soap($conf)
     {
         $proxy = array(
-            'proxy_host'     => "10.192.38.86",
+            'proxy_host'     => "",
             'proxy_port'     => 80,
-            'proxy_login'    => "c090762@CORPCAIXA",
-            'proxy_password' => "Ro3648");
+            'proxy_login'    => "",
+            'proxy_password' => "");
 
         $cliente = SOAP::getInstance($this->url, $proxy);
 
