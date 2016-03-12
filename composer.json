@@ -29,7 +29,8 @@
         "phpoffice/phpexcel": "dev-master",
         "doctrine/dbal": "~2.3.4",
         "royopa/quandl-elephant-api": "dev-master",
-        "royopa/phploy": "dev-master"
+        "royopa/phploy": "dev-master",
+        "symfony/http-kernel": "^2.8"
     },
     "autoload": {
         "psr-0": { "": "src/" }
