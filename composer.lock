@@ -1315,7 +1315,7 @@
                 "shasum": ""
             },
             "require": {
-                "php": "~5.4",
+                "php": ">=5.4",
                 "raveren/kint": "^1.0",
                 "vlucas/phpdotenv": "^2.0"
             },
