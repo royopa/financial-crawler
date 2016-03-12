@@ -4,3 +4,4 @@ web/vendor/
 /var/logs/
 /var/temp/
 deploy.ini
+/.vagrant/
