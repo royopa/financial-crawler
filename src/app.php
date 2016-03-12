@@ -8,6 +8,7 @@ use Silex\Provider\ServiceControllerServiceProvider;
 use Guzzle\GuzzleServiceProvider;
 
 $app = new Application();
+$app->register(new Silex\Provider\HttpFragmentServiceProvider());
 $app->register(new UrlGeneratorServiceProvider());
 $app->register(new ValidatorServiceProvider());
 $app->register(new ServiceControllerServiceProvider());
