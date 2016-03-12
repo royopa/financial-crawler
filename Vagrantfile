@@ -23,8 +23,7 @@ Vagrant.configure("2") do |config|
         v.customize ["modifyvm", :id, "--memory", 1024]
     end
 
-    config.vm.box = "precise64"
-    config.vm.box_url = "https://vagrantcloud.com/hashicorp/precise64/version/2/provider/virtualbox.box"
+    config.vm.box = "hashicorp/precise64"
 
     config.vm.network :private_network, ip: "192.168.33.99"
     config.ssh.forward_agent = true
