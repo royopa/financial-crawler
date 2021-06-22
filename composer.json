@@ -7,7 +7,7 @@
         "ext-soap": "*",
         "ext-mbstring": "*",
         "ext-curl": "*",
-        "php": ">=5.3.3",
+        "php": ">=7.0",
         "silex/silex": "~1.0",
         "silex/web-profiler": "~1.0",
         "symfony/browser-kit": "~2.3",
