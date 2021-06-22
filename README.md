@@ -18,15 +18,6 @@ Os dados disponíveis até o momento são
  - Câmbio
  - Bovespa
 
-##Rodando a aplicação
-
-Run on vagrant
-```sh
-vagrant up
-```
-http://192.168.33.100/web/index_dev.php
-
-
 Rodando na sua máquina local
 ----------------------------
 ```sh
