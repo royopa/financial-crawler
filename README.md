@@ -3,7 +3,7 @@ Financial Crawler
 
 Um crawler para indicadores financeiros escrito em PHP usando o Silex Framework
 
-http://financial-crawler.url.ph/
+https://dados-financeiros.herokuapp.com/
 
 Os dados disponíveis estão vindo das seguintes fontes:
  - BACEN, através do SGS - Sistema Gerenciador de Séries Temporais - https://www3.bcb.gov.br/sgspub/;
