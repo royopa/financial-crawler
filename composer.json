@@ -4,6 +4,9 @@
     "license": "MIT",
     "type": "project",
     "require": {
+        "ext-soap": "*",
+        "ext-mbstring": "*",
+        "ext-curl": "*",
         "php": ">=5.3.3",
         "silex/silex": "~1.0",
         "silex/web-profiler": "~1.0",
